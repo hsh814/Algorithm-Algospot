@@ -1,10 +1,9 @@
-#include <iostream>
-#include <string>
+#include<iostream>
+#include<string>
 
 using namespace std;
 
 bool hasWord(const string& str, int x, int y);
-bool outOfRange(int x, int y);
 
 string *boggle = new string[5];
 
