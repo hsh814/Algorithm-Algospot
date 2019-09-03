@@ -12,38 +12,42 @@ int main()
 {
     int totalCase;
     cin >> totalCase;
+    for(int repeat = 0; repeat < totalCase; repeat++){
+        for(int i = 0; i < 5; i++){
+            cin >> boggle[i];
+        }
 
-    string temp = "";
-    for(int i = 0; i < 5; i++){
-        cin >> boggle[i];
-    }
+        int wordsNum;
+        cin >> wordsNum;
+        string* words = new string[wordsNum];
+        for(int j = 0; j < wordsNum; j++){
+            cin >> words[j];
+        }
+        bool* results = new bool[wordsNum];
 
-    int wordsNum;
-    cin >> wordsNum;
-    string* words = new string[wordsNum];
-    for(int j = 0; j < wordsNum; j++){
-        cin >> words[j];
-    }
-    bool* results = new bool[wordsNum];
-
-    for(int k = 0; k < wordsNum; k++)
-    {
-        results[k] = false;
-        for(int x = 0; x < 5; x++){
-            for(int y = 0; y < 5; y++){
-                if (hasWord(words[k], x, y)){
-                    results[k] = true;
+        for(int k = 0; k < wordsNum; k++)
+        {
+            results[k] = false;
+            for(int x = 0; x < 5; x++){
+                for(int y = 0; y < 5; y++){
+                    if (hasWord(words[k], x, y)){
+                        results[k] = true; break;
+                    }
+                }
+                if(results[k]){
+                    break;
                 }
             }
         }
-    }
-    for(int i = 0; i < wordsNum; i++){
-        if(results[i] == true){
-            cout << words[i] << " YES\n"; 
-        } else {
-            cout << words[i] << " NO\n";
+        for(int i = 0; i < wordsNum; i++){
+            if(results[i] == true){
+                cout << words[i] << " YES\n"; 
+            } else {
+                cout << words[i] << " NO\n";
+            }
         }
     }
+
     return 0;
 }
 
