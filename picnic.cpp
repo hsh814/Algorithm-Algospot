@@ -64,7 +64,6 @@ int main()
         if(studentNum < 2  || pairNum < (studentNum / 2)){
             results[repeat] = 0; continue;
         } else {
-            cout << "\n" << repeat << " start!\n";
             results[repeat] = howMany(pairs1, pairs2, pairNum, studentNum);
         }
     }
@@ -116,9 +115,7 @@ int howMany(const int* pairs1, const int* pairs2, int pairNum, int studentNum)
         if(isPaired[i] == false && isFriend[first][i])
         {
             isPaired[first] = true; isPaired[i] = true;
-            cout << first << " " << i << ", ";
             total += howMany(pairs1, pairs2, pairNum, studentNum);
-            cout << " total: " << total << " | ";
             isPaired[first] = false; isPaired[i] = false;
         }
     }
