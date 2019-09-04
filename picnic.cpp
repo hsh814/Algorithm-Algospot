@@ -4,7 +4,11 @@
 using namespace std;
 
 int compare(int x1, int x2, int y1, int y2);
-int howMany(const int* pairs1, const int* pairs2, bool isPaired[], bool isFriend[][10], int pairNum, int studentNum);
+int howMany(const int* pairs1, const int* pairs2, int pairNum, int studentNum);
+
+
+bool isPaired[10] = {false};
+bool isFriend[10][10] = {false};
 
 int main()
 {
@@ -40,8 +44,11 @@ int main()
             }
         }
         //output
-        bool isPaired[10] = {false};
-        bool isFriend[10][10] = {false};
+        for(int x = 0; x < 10; x++){
+            for(int y = 0; y < 10; y++){
+                isFriend[x][y] = false;
+            }
+        }
         for(int i = 0; i < studentNum; i++)
         {
             for(int j = i + 1; j < studentNum; j++)
@@ -57,7 +64,8 @@ int main()
         if(studentNum < 2  || pairNum < (studentNum / 2)){
             results[repeat] = 0; continue;
         } else {
-            results[repeat] = howMany(pairs1, pairs2, isPaired, isFriend, pairNum, studentNum);
+            cout << "\n" << repeat << " start!\n";
+            results[repeat] = howMany(pairs1, pairs2, pairNum, studentNum);
         }
     }
     for(int i = 0; i < totalCase; i++){
@@ -87,35 +95,31 @@ int compare(int x1, int x2, int y1, int y2)
     }
 }
 
-int total = 0;
-int howMany(const int* pairs1, const int* pairs2, bool isPaired[], bool isFriend[][10], int pairNum, int studentNum)
+
+int howMany(const int* pairs1, const int* pairs2, int pairNum, int studentNum)
 {
-    bool success;
-    success = false;
+    int first = -1;
     for(int n = 0; n < studentNum; n++)
     {
         if(isPaired[n] == false)
         {
-            success = false; break;
-        }
-        else{
-            success = true;
+            first = n; break;
         }
     }
-    if(success)
+    if(first < 0)
     {
         return 1;
     }
-    for(int i = 0; i < studentNum; i++)
+    int total = 0;
+    for(int i = first + 1; i < studentNum; i++)
     {
-        for(int j = i+1; j < studentNum; j++)
+        if(isPaired[i] == false && isFriend[first][i])
         {
-            if(!isPaired[i] && !isPaired[j] && isFriend[i][j])
-            {
-                isPaired[i] = true; isPaired[j] = true;
-                total += howMany(pairs1, pairs2, isPaired, isFriend, pairNum, studentNum);
-                isPaired[i] = false; isPaired[j] = false; 
-            }
+            isPaired[first] = true; isPaired[i] = true;
+            cout << first << " " << i << ", ";
+            total += howMany(pairs1, pairs2, pairNum, studentNum);
+            cout << " total: " << total << " | ";
+            isPaired[first] = false; isPaired[i] = false;
         }
     }
     return total;
