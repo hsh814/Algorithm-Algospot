@@ -6,10 +6,10 @@ using namespace std;
 
 bool board[20][20];
 const int cover[4][2][2] = {
-    {{1, 0}, {0, -1}},
-    {{1, 0}, {1, -1}},
-    {{0, -1}, {1, -1}},
-    {{-1, -1}, {0, -1}}
+    {{1, 0}, {0, 1}},
+    {{1, 0}, {1, 1}},
+    {{0, 1}, {1, 1}},
+    {{1, 0}, {1, -1}}
 };
 int height, width;
 
@@ -45,11 +45,11 @@ bool outOfRange(int x, int y, int shape, int i)
     int tempy = y + cover[shape][i][1];
     if(tempx < height && tempx > -1 && tempy > -1 && tempy < width)
     {
-        return true;
+        return false;
     }
     else
     {
-        return false;
+        return true;
     }
     
 }
@@ -89,20 +89,21 @@ int countCover()
     {
         for(int j = 0; j < width; j++)
         {
-            if(!board[i][j]){
+            if(board[i][j] == false){
                 x = i; y = j;
                 break;
             }
         }
+        if(x > -1){
+            break;
+        }
     }
-    cout << x << " " << y << " | ";
     if(x == -1)
     {
         return 1;
     }
     if(x == (height - 1))
     {
-        cout << x << "이다\n";
         return 0;
     }
     int total = 0;
