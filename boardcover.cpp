@@ -39,6 +39,83 @@ int countWhite()
     return whiteNum;
 }
 
+bool outOfRange(int x, int y, int shape, int i)
+{
+    int tempx = x + cover[shape][i][0];
+    int tempy = y + cover[shape][i][1];
+    if(tempx < height && tempx > -1 && tempy > -1 && tempy < width)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+bool tryShpae(int x, int y, int shape)
+{
+    for(int i = 0; i < 2; i++)
+    {
+        int tempx = x + cover[shape][i][0];
+        int tempy = y + cover[shape][i][1];
+        if(outOfRange(x, y, shape, i) || board[tempx][tempy]){
+            return false;
+        } 
+    }
+    for(int j = 0; j < 2; j++)
+    {
+        int tempx = x + cover[shape][j][0];
+        int tempy = y + cover[shape][j][1];
+        board[tempx][tempy] = true;
+    }
+    board[x][y] = true;
+    return true;
+}
+void removeShape(int x, int y, int shape)
+{
+    board[x][y] = false;
+    for(int i = 0; i < 2; i++)
+    {
+        int tempx = x + cover[shape][i][0];
+        int tempy = y + cover[shape][i][1];
+        board[tempx][tempy] = false;
+    }
+}
+int countCover()
+{
+    int x = -1, y = -1;
+    for(int i = 0; i < height; i++)
+    {
+        for(int j = 0; j < width; j++)
+        {
+            if(!board[i][j]){
+                x = i; y = j;
+                break;
+            }
+        }
+    }
+    cout << x << " " << y << " | ";
+    if(x == -1)
+    {
+        return 1;
+    }
+    if(x == (height - 1))
+    {
+        cout << x << "이다\n";
+        return 0;
+    }
+    int total = 0;
+    for(int shape = 0; shape < 4; shape++)
+    {
+        if(tryShpae(x, y, shape))
+        {
+            total += countCover();
+            removeShape(x, y, shape);
+        }
+    }
+    return total;
+}
 int main()
 {
     //input
@@ -69,19 +146,7 @@ int main()
         {
             results[repeat] = 0; continue;
         }
-        //output
-        for(int i = 0; i < height; i++)
-        {
-            for(int j = 0; j < width; j++)
-            {
-                if(board[i][j]){
-                    cout << "O";
-                } else {
-                    cout << "X";
-                }
-            }
-            cout << endl;
-        }
+        results[repeat] = countCover();
     }
     for(int i = 0; i < totalCase; i++){
         cout << results[i] << endl;
