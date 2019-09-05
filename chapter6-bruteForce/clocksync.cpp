@@ -18,9 +18,9 @@ char switches[10][17] = {
 class clocksync
 {
 public:
+    int max = 30;
     int clockNum = 16;
     int* clocks;
-    int total = 0;
     clocksync(int* inputClocks)
     {
         clocks = inputClocks;
@@ -44,13 +44,53 @@ public:
         }
         return synced;
     }
-    void count()
+    void push(int myswitch)
     {
-
+        for(int clock = 0; clock < 16; clock++)
+        {
+            if(switches[myswitch][clock] == 'o'){
+                clocks[clock] += 3;
+            }
+        }
+    }
+    int count(int myswitch)
+    {
+        if(myswitch == 10){
+            if(areSynced()){
+                return 0;
+            } else {
+                return max + 1;
+            }
+        }
+        int n = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            n = count(myswitch + 1);
+            if(n > max){
+                n = max + 1;
+            } else {
+                return i + n;
+            }
+            push(myswitch);
+        }
     }
     int result()
     {
-        return -1;
+        int total = count(0);
+        if(total > max){
+            return -1;
+        } else {
+            return total;
+        }
+
+    }
+    void show(){
+        for(int i = 0; i < 16; i++){
+            if(i % 4 == 0){
+                cout << endl;
+            }
+            cout << clocks[i] << " ";
+        }
     }
 };
 
@@ -72,6 +112,7 @@ int main()
         }
         results[repeat] = cs.result();
     }
+    //output
     for(int i = 0; i < totalCase; i++){
         cout << results[i] << endl;
     }
