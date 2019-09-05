@@ -1,9 +1,11 @@
 #include<iostream>
 #include<string>
+#include<vector>
 
 using namespace std;
 
 char switches[10][17] = {
+   //0123456789012345
     "oooxxxxxxxxxxxxx",
     "xxxoxxxoxoxoxxxx",
     "xxxxoxxxxxoxxxoo",
@@ -20,8 +22,8 @@ class clocksync
 public:
     int max = 30;
     int clockNum = 16;
-    int* clocks;
-    clocksync(int* inputClocks)
+    vector<int> clocks;
+    clocksync(vector<int>& inputClocks)
     {
         clocks = inputClocks;
     }
@@ -53,6 +55,13 @@ public:
             }
         }
     }
+    int min(int a, int b){
+        if(a > b){
+            return b;
+        } else {
+            return a;
+        }
+    }
     int count(int myswitch)
     {
         if(myswitch == 10){
@@ -62,17 +71,13 @@ public:
                 return max + 1;
             }
         }
-        int n = 0;
+        int n = max + 1;
         for(int i = 0; i < 4; i++)
         {
-            n = count(myswitch + 1);
-            if(n > max){
-                n = max + 1;
-            } else {
-                return i + n;
-            }
+            n = min(n, count(myswitch + 1) + i);
             push(myswitch);
         }
+        return n;
     }
     int result()
     {
@@ -100,9 +105,9 @@ int main()
     int totalCase;
     cin >> totalCase;
     int results[30];
-    int clocks[16];
     for(int repeat = 0; repeat < totalCase; repeat++)
     {
+        vector<int> clocks(16);
         for(int input = 0; input < 16; input++){
             cin >> clocks[input];
         }
