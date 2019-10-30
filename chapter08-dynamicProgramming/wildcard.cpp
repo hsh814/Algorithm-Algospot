@@ -8,12 +8,12 @@
 using namespace std;
 
 
-char cache[MAX][MAX];
+int cache[MAX][MAX];
 int n;
 string wildcard, str;
 bool match(int w, int s)
 {
-    char& ret = cache[w][s];
+    int& ret = cache[w][s];
     if(ret != -1) { return ret; }
     while(s < str.size() && w < wildcard.size() && (wildcard[w] == '?' || wildcard[w] == str[s]))
     {
@@ -73,10 +73,6 @@ void sortString(string* files, int num)
 }
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
     string* results[10];
     int res[10];
     int totalCase;
