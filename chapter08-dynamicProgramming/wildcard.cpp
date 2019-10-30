@@ -37,6 +37,40 @@ bool match(int w, int s)
     }
     return 0;
 }
+int compareString(string& s1, string& s2)
+{
+    int n;
+    if(s1.size() < s2.size()){
+        n = s1.size();
+    } else {
+        n = s2.size();
+    }
+    for(int i = 0; i < n;i++)
+    {
+        if(s1[i] != s2[i]){
+            if(s1[i] > s2[i]) { return -1; }
+            return 1;
+        }
+    }
+    if(s1.size() > s2.size()) { return -1; }
+    else if(s1.size() < s2.size()) { return 1; }
+    return 0;
+}
+void sortString(string* files, int num)
+{
+    for(int i = 0; i < num; i++)
+    {
+        for(int j = i + 1; j < num; j++)
+        {
+            if(compareString(files[i], files[j]) < 0)
+            {
+                string s = files[i];
+                files[i] = files[j];
+                files[j] = s;
+            }
+        }
+    }
+}
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -86,6 +120,7 @@ int main()
                 files[index++] = str;
             }       
         }
+        sortString(files, index);
         results[repeat] = files;
         res[repeat] = index;
     }
