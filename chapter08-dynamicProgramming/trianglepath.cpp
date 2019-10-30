@@ -11,9 +11,24 @@ using namespace std;
 int cache[MAX][MAX], triangle[MAX][MAX];
 int n;
 
+int max(int x, int y)
+{
+    if(x < y){
+        return y;
+    }
+    return x;
+}
 int path(int x, int y)
 {
-    return 0;
+    if(x == (n-1)){
+        return triangle[x][y];
+    }
+    int& temp = cache[x][y];
+    if(temp != -1){
+        return temp;
+    }
+    temp = triangle[x][y] + max(path(x+1, y), path(x+1, y+1));
+    return temp;
 }
 
 int main()
@@ -28,6 +43,7 @@ int main()
     for(int repeat = 0; repeat < totalCase; repeat++)
     {
         //cout << repeat << "th repeat!\n";
+        memset(cache, -1, sizeof(cache));
         cin >> n;
         int index = 0;
         for (int i = 0; i < n; i++)
