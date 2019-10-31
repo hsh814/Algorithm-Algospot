@@ -126,6 +126,7 @@ int main()
         {
             cout << results[i][j] << '\n';
         }
+        delete[] results[i];
     }
     return 0;
 }
