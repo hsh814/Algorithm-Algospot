@@ -49,7 +49,12 @@ int main()
         {
             cin >> seq[i];
         }
-        results[repeat] = lis(0);
+        int maximum = 1;
+        for(int i = 0; i < n; i++)
+        {
+            maximum = max(maximum, lis(i));
+        }
+        results[repeat] = maximum;
     }
     for(int i = 0; i < totalCase; i++)
     {
