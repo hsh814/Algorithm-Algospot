@@ -68,7 +68,7 @@ int memorize(int begin)
             cache[begin] = min(cache[begin], memorize(begin + len) + classify(begin, begin + len - 1));
         }
     }
-    printCache(begin);
+    //printCache(begin);
     return cache[begin];
 }
 
@@ -88,7 +88,6 @@ int main()
         cin >> s;
         strend = s.size();
         results[repeat] = memorize(0);
-        cout << endl;
     }
     for(int i = 0; i < totalCase; i++)
     {
